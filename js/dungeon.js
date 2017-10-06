@@ -349,6 +349,8 @@ var dungeonState = {
       else if (this.player.body.x == 736){
         spawn = "bottomLeft";
         changeScreen("dining");
+        dungeonx = 0;
+        dungeony = 0;
       }
     }
 
