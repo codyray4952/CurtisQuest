@@ -11,7 +11,6 @@ function changeScreen(newLevel, oldLevel, side){
   {
     area2.destroy();
     area3.destroy();
-    console.log("attempted to destroy table")
   }
   area = walls.create(0,0,level);
   area.body.immovable = true;
