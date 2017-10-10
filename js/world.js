@@ -1,10 +1,12 @@
 function changeScreen(newScreen){
-  console.log("switch screen");
   game.state.start(newScreen);
 }
 
-var spawn = "left";
+var luna;
+var circleWormLocation = "kitchen";
+var circleWorm;
 
+var spawn = "center";
 var spawnx;
 var spawny;
 var spawnDir;
@@ -20,15 +22,23 @@ var gateState = {
     area = walls.create(0,0,"gate");
     area.body.immovable = true;
 
-    if (spawn == "left"){
-      spawnx = 40;
-      spawny = 500;
-      spawnDir = -1;
+    if (circleWormLocation == "kitchen"){
+      luna = game.add.sprite(0,425,'luna');
+      luna.enableBody = true;
+      luna.scale.setTo(3)
+      game.physics.enable(luna, Phaser.Physics.ARCADE);
+      luna.body.immovable = true;
     }
+
     if (spawn == "right"){
       spawnx = 700;
       spawny = 500;
-      spawnDir = 1
+      spawnDir = 1;
+    }
+    else if (spawn == "center") {
+      spawnx = 412;
+      spawny = 517;
+      spawnDir = 1;
     }
 
     this.player = game.add.sprite(spawnx,spawny,'curtis');
@@ -40,22 +50,27 @@ var gateState = {
   update: function(){
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A))
     {
-        this.player.body.x -= 4;
+        this.player.body.velocity.x = -200;
         this.player.scale.x = 1;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
-        this.player.body.x += 4;
+        this.player.body.velocity.x = 200;
         this.player.scale.x = -1;
     }
-
+    else {
+      this.player.body.velocity.x = 0;
+    }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W))
     {
-        this.player.body.y -= 4;
+        this.player.body.velocity.y = -200;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S))
     {
-        this.player.body.y += 4;
+        this.player.body.velocity.y = 200;
+    }
+    else {
+      this.player.body.velocity.y = 0;
     }
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.L))
@@ -70,6 +85,9 @@ var gateState = {
     }
 
     this.game.physics.arcade.collide(this.player, walls);
+    this.game.physics.arcade.collide(this.player, circleWorm);
+    this.game.physics.arcade.collide(walls,circleWorm);
+    this.game.physics.arcade.collide(this.player,luna);
   }
 }
 
@@ -110,26 +128,39 @@ var diningState = {
     this.player.scale.x = spawnDir;
     game.physics.enable(this.player, Phaser.Physics.ARCADE);
     this.player.body.collideWorldBounds = true;
+
+    if (circleWormLocation == "dining"){
+      circleWorm = game.add.sprite(600,350,'circleWorm');
+      game.physics.enable(circleWorm,Phaser.Physics.ARCADE);
+      // circleWorm.body.velocity.setTo(200,200);
+      // circleWorm.body.collideWorldBounds = true;
+      circleWorm.body.bounce.setTo(0.5);
+    }
   },
   update: function(){
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A))
     {
-        this.player.body.x -= 4;
+        this.player.body.velocity.x = -200;
         this.player.scale.x = 1;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
-        this.player.body.x += 4;
+        this.player.body.velocity.x = 200;
         this.player.scale.x = -1;
     }
-
+    else {
+      this.player.body.velocity.x = 0;
+    }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W))
     {
-        this.player.body.y -= 4;
+        this.player.body.velocity.y = -200;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S))
     {
-        this.player.body.y += 4;
+        this.player.body.velocity.y = 200;
+    }
+    else {
+      this.player.body.velocity.y = 0;
     }
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.L))
@@ -152,6 +183,8 @@ var diningState = {
     }
 
     this.game.physics.arcade.collide(this.player, walls);
+    this.game.physics.arcade.collide(this.player, circleWorm);
+    this.game.physics.arcade.collide(walls,circleWorm)
   }
 }
 
@@ -172,40 +205,60 @@ var kitchenState = {
     this.player.scale.x = spawnDir;
     game.physics.enable(this.player, Phaser.Physics.ARCADE);
     this.player.body.collideWorldBounds = true;
+    this.player.body.bounce.setTo(1,1)
 
+    if (circleWormLocation == "kitchen"){
+      circleWorm = game.add.sprite(600,350,'circleWorm');
+      game.physics.enable(circleWorm,Phaser.Physics.ARCADE);
+      // circleWorm.body.velocity.setTo(200,200);
+      // circleWorm.body.collideWorldBounds = true;
+      circleWorm.body.bounce.setTo(0.5);
+    }
   },
   update: function(){
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A))
     {
-        this.player.body.x -= 4;
+        this.player.body.velocity.x = -200;
         this.player.scale.x = 1;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
-        this.player.body.x += 4;
+        this.player.body.velocity.x = 200;
         this.player.scale.x = -1;
     }
-
+    else {
+      this.player.body.velocity.x = 0;
+    }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W))
     {
-        this.player.body.y -= 4;
+        this.player.body.velocity.y = -200;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S))
     {
-        this.player.body.y += 4;
+        this.player.body.velocity.y = 200;
+    }
+    else {
+      this.player.body.velocity.y = 0;
     }
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.L))
     {
-      console.log(this.player.body.x)
-      console.log(this.player.body.y)
+      console.log(circleWorm.body.x)
+      console.log(circleWorm.body.y)
     }
 
     if (this.player.body.x == 0){
-      spawn = "topRight"
-      changeScreen("dining")
+      spawn = "topRight";
+      if (circleWormLocation == "kitchen"){
+        if (circleWorm.body.x < 0){
+          circleWormLocation = "dining";
+        }
+      }
+      changeScreen("dining");
     }
 
     this.game.physics.arcade.collide(this.player, walls);
+    this.game.physics.arcade.collide(this.player, circleWorm);
+    this.game.physics.arcade.collide(walls,circleWorm)
   }
 }

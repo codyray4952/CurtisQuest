@@ -13,6 +13,7 @@ var loadState = {
     game.load.image('diningTable','/assets/backgrounds/diningTable.png');
 
     game.load.image('kitchen','/assets/backgrounds/kitchenBg.png');
+    game.load.image('circleWorm','/assets/characters/circleWorm.png')
 
     game.load.image('dungeonBg','/assets/backgrounds/dungeonBg.png');
     game.load.image('dungeonWall','/assets/backgrounds/dungeonBarrier.png');
@@ -20,6 +21,7 @@ var loadState = {
     game.load.image('dungeonCorner','/assets/backgrounds/dungeonCorner.png');
 
     game.load.image('curtis','/assets/characters/curtis.png');
+    game.load.image('luna','/assets/characters/luna.png')
 
   },
   create: function(){

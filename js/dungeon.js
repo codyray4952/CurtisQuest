@@ -356,22 +356,27 @@ var dungeonState = {
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.Keyboard.A))
     {
-        this.player.body.x -= 4;
+        this.player.body.velocity.x = -200;
         this.player.scale.x = 1;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
-        this.player.body.x += 4;
+        this.player.body.velocity.x = 200;
         this.player.scale.x = -1;
     }
-
+    else {
+      this.player.body.velocity.x = 0;
+    }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP) || game.input.keyboard.isDown(Phaser.Keyboard.W))
     {
-        this.player.body.y -= 4;
+        this.player.body.velocity.y = -200;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN) || game.input.keyboard.isDown(Phaser.Keyboard.S))
     {
-        this.player.body.y += 4;
+        this.player.body.velocity.y = 200;
+    }
+    else {
+      this.player.body.velocity.y = 0;
     }
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.L))
